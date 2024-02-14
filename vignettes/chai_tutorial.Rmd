@@ -1,0 +1,130 @@
+---
+title: "CHAI: consensus Clustering tHrough similArIty matrIces for single cell type identification"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{my-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+# Introduction
+CHAI (consensus Clustering tHrough similArIty matrIces for single cell type identification) is a consensus clustering framework that offers two methods for consensus clustering: Clustering Similarity Partitioning Algorithm (CSPA) and Similarity Network Fusion (SNF).
+This vignette demonstrates a standard workflow for running both CSPA and SNF for the purpose of consensus clustering. 
+
+# Install Dependencies
+All CRAN related dependencies are installed with the installion of CHAI. However you will need to install some other dependencies independently from BioConductor and GitHub. Below is how to do so for each package.
+```{r setup, eval=FALSE}
+# Install scSHC
+devtools::install_github("igrabski/sc-SHC")
+# Install RaceID
+devtools::install_github("dgrun/RaceID3_StemID2_package")
+# Install SC3
+if (!require("BiocManager", quietly = TRUE)) {
+    install.packages("BiocManager")
+}
+BiocManager::install("SC3")
+# Install SingleCellExperiment
+BiocManager::install("SingleCellExperiment")
+```
+Now, all packages should be installed.
+```{r, eval=FALSE}
+library(chai)
+library(scSHC)
+library(RaceID)
+library(SC3)
+library(SingleCellExperiment)
+```
+# Data Loading and Preprocessing
+CHAI accepts a SingleCellExperiment object as input for running all clustering algorithms. Creating a SingleCellExperiment object for single cell RNA-seq data is well documented, here is an example for creating one using a single cell matrix, where rows are genes and columns are cells. 
+Be sure to load the counts and logcounts into the single cell experiment object. 
+
+For test data, we provide a subsampled 200 cell dataset from the widely used Baron datasets. This is accessible in the data section of the CHAI repo.
+
+```{r, eval=FALSE}
+# Load data
+sampled_data <- read.csv("data/sampled_data.csv", row.names = 1)
+
+# Create SingleCellExperiment object
+sce <- SingleCellExperiment(assays = list(counts = as.matrix(sampled_data)))
+# Add logcounts 
+sce <- scuttle::logNormCounts(sce)
+
+```
+
+# Run Clustering Algorithms
+The CHAI workflow currently supports 5 state-of-the-art clusteirng methods: Seurat, scSHC, Spectrum, SC3, and RaceID. For Seurat we run two clustering algorithms, Louvain and SLC. To run all algorithms, we provide a wrapper function that takes a SingleCellExperiment object as input. 
+```{r, eval=FALSE}
+# Run All Clustering Algorithms
+get_clust_assignments(sce, out_dir = getwd())
+```
+
+All clustering assignments will be written to a newly created alg_clust_assign subdirectory within the current working directory, or another directory specified in the out_dir parameter. 
+The format for the clustering assignments is a .csv file containing the cell names in column "cells", and the cluster assignments in the column "clust_assign". 
+
+You also have the ability to run individual clustering algorithms. Simply call ```{algorithm_name}_assign_func(sce, out_dir)```. Here is an example for Seurat.
+```{r, eval=FALSE}
+# Run Just Seurat Clustering Algorithm. 
+seurat_assign_func(sce, out_dir = getwd())
+```
+
+# Create Binary Similarity Matrices
+
+Both CSPA and SNF consensus clustering are based on binary similarity matrices. In brief, we create a similarity matrix for each cluster assignment with the following rules:
+
+1. If two cells are assigned the same cluster, assign a score of 1. 
+2. If two cells are not assigned the same cluster, assign a score of zero. 
+
+Therefore we are able to create a binary similarity matrix for each clustering algorithm in the CHAI workflow. We store each matrix in a list format, which makes them easier to access for downstream functions. 
+
+The function to create the list of similarity matrices takes as parameter the home directory, which must be the parent folder of the previously created "alg_clust_assign" directory. This parameter defaults to the current working directory. 
+```{r, eval=FALSE}
+# Generate list of binary similarity matrices 
+similarity_matrix_list = create_matrix_list(getwd())
+```
+
+# Run CSPA or SNF
+
+Running either CSPA or SNF is very simple using the CHAI infrustructure. 
+
+To run CSPA, we must create an average ranking matrix of each binary similarity matrix in the similarity_matrix_list. 
+
+```{r, eval=FALSE}
+# Generate list of binary similarity matrices 
+cspa_average_matrix <- create_average_matrix(similarity_matrix_list)
+```
+
+To run SNF, we must call the SNF function on the similarity_matrix_list. 
+
+```{r, eval=FALSE}
+# Generate list of binary similarity matrices 
+snf_matrix <- create_snf_matrix(similarity_matrix_list)
+```
+
+# Run Spectral Clustering for Consensus Clustering Assignments 
+
+CHAI supports running Spectral Clustering on either the cspa_average_matrix or the snf_matrix. Spectral Clustering requires the specification of a "K" partitioning of the graph, which will be the number of cell clusters in this case. 
+
+If a user already knows the true number of clusters in the dataset, they can simply run Spectral Clustering on either matrix. We use the snf_matrix as an example here, but it is interchangable with the cspa_average_matrix in the case of this function. 
+```{r, eval=FALSE}
+# Run Spectral clustering on snf_matrix. To run on cspa_average_matrix, replace snf_matrix with cspa_average_matrix in this function. 
+true_k <- 9
+snf_clusters <- spectral_clustering(snf_matrix, true_k)
+```
+
+If the true number of clusters is not known, users can determine the "best_k" for Spectral Clustering by evaluating the optimal silhouette score. The CHAI workflow provides a method to do so. 
+
+```{r, eval=FALSE}
+
+# Determine best K through silhouette score. 
+best_k <- calc_silhouette_scores(snf_matrix, 15)
+
+# To run on cspa_average_matrix, replace snf_matrix with cspa_average_matrix in this function. 
+snf_clusters <- spectral_clustering(snf_matrix, best_k)
+```
+
+# TODO: Add Visualization, Evaluation and References. 
