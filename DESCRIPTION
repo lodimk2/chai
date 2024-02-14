@@ -1,6 +1,6 @@
 Package: chai
 Title: CHAI: consensus Clustering tHrough similArIty matrIces for single cell type identification
-Version: 0.0.0.9100
+Version: 0.0.0.9110
 Authors@R: 
     person("Musaddiq", "Lodi", , "lodimk2@vcu.edu", role = c("aut", "cre"))
 Description: Consensus Clustering Through Similarity Matrices for Single Cell Type Identification.

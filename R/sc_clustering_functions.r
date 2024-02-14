@@ -198,19 +198,18 @@ choir_assign_func <- function(sce, out_dir = getwd()) {
   }
   
 
-  seurat_object <- CreateSeuratObject(counts(sce))
+  seurat_object <- Seurat::CreateSeuratObject(counts(sce))
  
-  seurat_object <- NormalizeData(seurat_object)
-  print(seurat_object)
+  seurat_object <- Seurat::NormalizeData(seurat_object)
 
   
-  seurat_object <- CHOIR(seurat_object, n_cores = 2)
+  seurat_object <- CHOIR::CHOIR(seurat_object, n_cores = 2)
 
   
-  seurat_object <- buildTree(seurat_object, n_cores = 2)
+  seurat_object <- CHOIR::buildTree(seurat_object, n_cores = 2)
 
   
-  seurat_object <- pruneTree(seurat_object, n_cores = 2)
+  seurat_object <- CHOIR::pruneTree(seurat_object, n_cores = 2)
   
 
   
