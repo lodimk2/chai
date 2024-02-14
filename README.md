@@ -1,4 +1,4 @@
-# "CHAI: consensus Clustering tHrough similArIty matrIces for single cell type identification"
+# CHAI: consensus Clustering tHrough similArIty matrIces for single cell type identification
 
 ### Introduction 
 CHAI (consensus Clustering tHrough similArIty matrIces for single cell type identification) is a consensus clustering framework that offers two methods for consensus clustering: Clustering Similarity Partitioning Algorithm (CSPA) and Similarity Network Fusion (SNF).
