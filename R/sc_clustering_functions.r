@@ -180,6 +180,49 @@ sc3_assign_func <- function(sce, out_dir = getwd()) {
     
 }
 
+#' Run Choir
+#'
+#' Function to run choir clustering algorithm 
+#' @param sce SingleCellExperiment object of the dataset
+#' @param out_dir Directory where output should be written to. Defaults to the current working directory. Will automatically create a directory called 'alg_clust_assign' to house all algorithm assignments
+#' @keywords choir
+#' @export 
+#' @examples
+#' choir_assign_func(sce, out_dir = getwd())
+choir_assign_func <- function(sce, out_dir = getwd()) {
+  
+  if (!dir.exists(paste0(out_dir, "/alg_clust_assign"))){
+    dir.create(paste0(out_dir, "/alg_clust_assign"))
+  }else{
+    #print("alg_clust_assign dir already exists")
+  }
+  
+
+  seurat_object <- CreateSeuratObject(counts(sce))
+ 
+  seurat_object <- NormalizeData(seurat_object)
+  print(seurat_object)
+
+  
+  seurat_object <- CHOIR(seurat_object, n_cores = 2)
+
+  
+  seurat_object <- buildTree(seurat_object, n_cores = 2)
+
+  
+  seurat_object <- pruneTree(seurat_object, n_cores = 2)
+  
+
+  
+
+  choir_assignments <- cbind(colnames(sce), seurat_object$CHOIR_clusters_0.05)
+
+  
+  colnames(choir_assignments) <- c("cells", "clust_assign")
+  write.csv(choir_assignments,paste0(out_dir, "/alg_clust_assign/choir_clust_assign.csv"))
+
+}
+
 #' Run All Clustering Assignment Algorithms currently in the pipeline
 #'
 #' Function to run all clustering algorithms (Seurat, scSHC, Spectrum, RaceID, SC3).
