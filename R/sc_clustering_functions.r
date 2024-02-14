@@ -250,6 +250,8 @@ get_clust_assignments <- function(sce, out_dir = getwd()) {
     invisible(capture.output(raceid_assign_func(sce, out_dir)))
     print("Running SC3")
     invisible(capture.output(sc3_assign_func(sce, out_dir)))
+    print("Running CHOIR")
+    invisible(capture.output(choir_assign_func(sce, out_dir)))
 
     print("All clustering assignments are completed.")
     print(paste0("Output written to ", out_dir, "/alg_clust_assign"))
