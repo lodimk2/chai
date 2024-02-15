@@ -199,24 +199,14 @@ choir_assign_func <- function(sce, out_dir = getwd()) {
   
 
   seurat_object <- Seurat::CreateSeuratObject(counts(sce))
- 
   seurat_object <- Seurat::NormalizeData(seurat_object)
-
-  
+  seurat_obj <- seurat_obj
   seurat_object <- CHOIR::CHOIR(seurat_object, n_cores = 2)
-
-  
   seurat_object <- CHOIR::buildTree(seurat_object, n_cores = 2)
-
-  
   seurat_object <- CHOIR::pruneTree(seurat_object, n_cores = 2)
-  
-
-  
 
   choir_assignments <- cbind(colnames(sce), seurat_object$CHOIR_clusters_0.05)
 
-  
   colnames(choir_assignments) <- c("cells", "clust_assign")
   write.csv(choir_assignments,paste0(out_dir, "/alg_clust_assign/choir_clust_assign.csv"))
 
