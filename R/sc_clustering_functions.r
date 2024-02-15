@@ -200,7 +200,8 @@ choir_assign_func <- function(sce, out_dir = getwd()) {
 
   seurat_object <- Seurat::CreateSeuratObject(counts(sce))
   seurat_object <- Seurat::NormalizeData(seurat_object)
-  seurat_obj <- seurat_obj
+  # TEST LINE TO SEE IF THIS WORKS
+  seurat_object <- seurat_object
   seurat_object <- CHOIR::CHOIR(seurat_object, n_cores = 2)
   seurat_object <- CHOIR::buildTree(seurat_object, n_cores = 2)
   seurat_object <- CHOIR::pruneTree(seurat_object, n_cores = 2)
@@ -221,7 +222,7 @@ choir_assign_func <- function(sce, out_dir = getwd()) {
 #' @export
 #' @examples
 #' get_clust_assignments(sce, out_dir = getwd())
-get_clust_assignments <- function(sce, out_dir = getwd()) {
+get_clust_assignments <- function(sce, out_dir = getwd(), windows = FALSE) {
 
     if (!dir.exists(paste0(out_dir, "/alg_clust_assign"))){
     dir.create(paste0(out_dir, "/alg_clust_assign"))
@@ -231,8 +232,6 @@ get_clust_assignments <- function(sce, out_dir = getwd()) {
 
     print("Running Seurat")
     invisible(capture.output(seurat_assign_func(sce, out_dir)))
-    print("Running scSHC")
-    invisible(capture.output(scSHC_assign_func(sce, out_dir)))
     print("Running Spectrum")
     invisible(capture.output(spectrum_assign_func(sce, out_dir)))
     print("Running RaceID")
@@ -241,6 +240,13 @@ get_clust_assignments <- function(sce, out_dir = getwd()) {
     invisible(capture.output(sc3_assign_func(sce, out_dir)))
     print("Running CHOIR")
     invisible(capture.output(choir_assign_func(sce, out_dir)))
+    if (windows == TRUE) {
+        "Skipping scSHC since Windows machine specified"
+    }
+    else {
+    print("Running scSHC")
+    invisible(capture.output(scSHC_assign_func(sce, out_dir)))
+    }
 
     print("All clustering assignments are completed.")
     print(paste0("Output written to ", out_dir, "/alg_clust_assign"))
