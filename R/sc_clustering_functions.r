@@ -196,12 +196,14 @@ choir_assign_func <- function(sce, out_dir = getwd()) {
   }else{
     #print("alg_clust_assign dir already exists")
   }
-  
-
-  seurat_object <- Seurat::CreateSeuratObject(counts(sce))
-  seurat_object <- Seurat::NormalizeData(seurat_object)
+  print("Creating Seurat object")
+  new_object <- Seurat::CreateSeuratObject(counts(sce))
+  new_object <- Seurat::NormalizeData(new_object)
   # TEST LINE TO SEE IF THIS WORKS
-  seurat_object <- seurat_object
+  #new_object <- new_object
+  print("Created new_object!!")
+  seurat_object <- new_object
+  print("saved seurat_object to new object variable")
   seurat_object <- CHOIR::CHOIR(seurat_object, n_cores = 2)
   seurat_object <- CHOIR::buildTree(seurat_object, n_cores = 2)
   seurat_object <- CHOIR::pruneTree(seurat_object, n_cores = 2)
@@ -244,8 +246,8 @@ get_clust_assignments <- function(sce, out_dir = getwd(), windows = FALSE) {
         "Skipping scSHC since Windows machine specified"
     }
     else {
-    print("Running scSHC")
-    invisible(capture.output(scSHC_assign_func(sce, out_dir)))
+        print("Running scSHC")
+        invisible(capture.output(scSHC_assign_func(sce, out_dir)))
     }
 
     print("All clustering assignments are completed.")

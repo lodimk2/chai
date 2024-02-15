@@ -58,6 +58,9 @@ sce <- scuttle::logNormCounts(sce)
 
 # Run Clustering Algorithms
 The CHAI workflow currently supports 5 state-of-the-art clusteirng methods: Seurat, scSHC, Spectrum, SC3, and RaceID. For Seurat we run two clustering algorithms, Louvain and SLC. To run all algorithms, we provide a wrapper function that takes a SingleCellExperiment object as input. 
+
+We are aware that scSHC does not run on Windows machine at the moment due to the mccores error. If you are on a Windows machine, specify this as a parameter as ```windows = TRUE``` in the function ```get_clust_assignments()```. 
+
 ```{r, eval=FALSE}
 # Run All Clustering Algorithms
 get_clust_assignments(sce, out_dir = getwd())
@@ -127,4 +130,40 @@ best_k <- calc_silhouette_scores(snf_matrix, 15)
 snf_clusters <- spectral_clustering(snf_matrix, best_k)
 ```
 
-# TODO: Add Visualization, Evaluation and References. 
+# Evaluation
+
+The CHAI workflow currently supports ARI as an evaluation metric. We will add NMI shortly. 
+
+Here is how to generate an adjusted rand index table/bar graph for CHAI_CSPA, CHAI_SNF, and the rest of the algorithms, using the ```eval_function``` in CHAI.
+
+```{r, eval = FALSE}
+# Create a dataframe for ARI, to make into bargraph
+
+ari_table <- data.frame("Algorithm" = c("CHAI_CSPA", "CHAI_SNF"), "ARI" = c(eval_function(cspa_clusters@.Data, sdf_metadata$Graph.based),eval_function(snf_clusters@.Data, sdf_metadata$Graph.based)))
+
+# Iterate over the rest of alg_clust_assign and add to the ari_table
+setwd("alg_clust_assign")
+for (file in list.files(getwd())) {
+    # Read the CSV file
+    assign_file <- read.csv(file)
+    # Evaluate function and calculate ARI
+    ari <- eval_function(assign_file$clust_assign, sdf_metadata$Graph.based)
+    # Add new row to ari_table
+    new_row <- data.frame("Algorithm" = gsub("_assign.csv", "", file), "ARI" = ari, stringsAsFactors = FALSE)
+    ari_table <- rbind(ari_table, new_row)
+}
+# Change home directory back to parent folder of alg_clust_assign
+setwd(home_dir)
+
+# Create bargraph using ggplot2
+library(ggplot2)
+plot <- ggplot(ari_table, aes(x = Algorithm, y = ARI, fill = Algorithm)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("CHAI_CSPA" = "darkgreen", "CHAI_SNF" = "darkgreen")) + # Set colors
+  labs(x = "Algorithm", y = "ARI", title = "ARI Evaluation for Dataset") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+ggsave("ari_eval_plot", plot = plot, width = 10, height = 8)
+
+```
+# TODO: Add Visualization and References. 
