@@ -4,7 +4,7 @@
 \alias{get_clust_assignments}
 \title{Run All Clustering Assignment Algorithms currently in the pipeline}
 \usage{
-get_clust_assignments(sce, out_dir = getwd())
+get_clust_assignments(sce, out_dir = getwd(), windows = FALSE)
 }
 \arguments{
 \item{sce}{SingleCellExperiment object of the dataset}
