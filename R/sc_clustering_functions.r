@@ -205,9 +205,6 @@ choir_assign_func <- function(sce, out_dir = getwd()) {
   seurat_object <- new_object
   print("saved seurat_object to new object variable")
   seurat_object <- CHOIR::CHOIR(seurat_object, n_cores = 2)
-  seurat_object <- CHOIR::buildTree(seurat_object, n_cores = 2)
-  seurat_object <- CHOIR::pruneTree(seurat_object, n_cores = 2)
-
   choir_assignments <- cbind(colnames(sce), seurat_object$CHOIR_clusters_0.05)
 
   colnames(choir_assignments) <- c("cells", "clust_assign")
@@ -224,7 +221,7 @@ choir_assign_func <- function(sce, out_dir = getwd()) {
 #' @export
 #' @examples
 #' get_clust_assignments(sce, out_dir = getwd())
-get_clust_assignments <- function(sce, out_dir = getwd(), windows = FALSE) {
+get_clust_assignments <- function(sce, out_dir = getwd()) {
 
     if (!dir.exists(paste0(out_dir, "/alg_clust_assign"))){
     dir.create(paste0(out_dir, "/alg_clust_assign"))
@@ -242,13 +239,13 @@ get_clust_assignments <- function(sce, out_dir = getwd(), windows = FALSE) {
     invisible(capture.output(sc3_assign_func(sce, out_dir)))
     print("Running CHOIR")
     invisible(capture.output(choir_assign_func(sce, out_dir)))
-    if (windows == TRUE) {
-        "Skipping scSHC since Windows machine specified"
-    }
-    else {
-        print("Running scSHC")
+    tryCatch({
         invisible(capture.output(scSHC_assign_func(sce, out_dir)))
-    }
+    }, error = function(e) {
+        print("scSHC threw an error.")
+    } 
+    )
+    
 
     print("All clustering assignments are completed.")
     print(paste0("Output written to ", out_dir, "/alg_clust_assign"))
