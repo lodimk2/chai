@@ -166,21 +166,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">&quot;SC3&quot;</span>)</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Install SingleCellExperiment</span></span>
+<<<<<<< HEAD
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">&quot;SingleCellExperiment&quot;</span>)</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;corceslab/CHOIR&quot;</span>, <span class="at">ref=</span><span class="st">&quot;main&quot;</span>, <span class="at">repos =</span> BiocManager<span class="sc">::</span><span class="fu">repositories</span>(), <span class="at">upgrade =</span> <span class="st">&quot;never&quot;</span>)</span></code></pre></div>
+=======
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">&quot;SingleCellExperiment&quot;</span>)</span></code></pre></div>
+>>>>>>> d00ede4a594bd39796e3dd18c2362f703b0c64f8
 <p>Now, all packages should be installed.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(chai)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scSHC)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RaceID)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SC3)</span>
+<<<<<<< HEAD
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SingleCellExperiment)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(CHOIR)</span></code></pre></div>
+=======
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SingleCellExperiment)</span></code></pre></div>
+>>>>>>> d00ede4a594bd39796e3dd18c2362f703b0c64f8
 </div>
 <div id="data-loading-and-preprocessing" class="section level1">
 <h1>Data Loading and Preprocessing</h1>
 <p>CHAI accepts a SingleCellExperiment object as input for running all clustering algorithms. Creating a SingleCellExperiment object for single cell RNA-seq data is well documented, here is an example for creating one using a single cell matrix, where rows are genes and columns are cells. Be sure to load the counts and logcounts into the single cell experiment object.</p>
+<<<<<<< HEAD
 <p>For test data, we provide a subsampled 100 cell dataset from the widely used Baron datasets. This is accessible in the data section of the CHAI repo.</p>
+=======
+<p>For test data, we provide a subsampled 200 cell dataset from the widely used Baron datasets. This is accessible in the data section of the CHAI repo.</p>
+>>>>>>> d00ede4a594bd39796e3dd18c2362f703b0c64f8
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>sampled_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/sampled_data.csv&quot;</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -191,8 +203,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="run-clustering-algorithms" class="section level1">
 <h1>Run Clustering Algorithms</h1>
+<<<<<<< HEAD
 <p>The CHAI workflow currently supports 6 state-of-the-art clustering methods: Seurat, scSHC, Spectrum, SC3, RaceID and CHOIR. For Seurat we run two clustering algorithms, Louvain and SLC. To run all algorithms, we provide a wrapper function that takes a SingleCellExperiment object as input.</p>
 <p>We are aware that scSHC does not run on some Windows machine at the moment due to the mccores error. For now this function will throw an error and not run, but the rest of the function will still execute.</p>
+=======
+<p>The CHAI workflow currently supports 5 state-of-the-art clusteirng methods: Seurat, scSHC, Spectrum, SC3, and RaceID. For Seurat we run two clustering algorithms, Louvain and SLC. To run all algorithms, we provide a wrapper function that takes a SingleCellExperiment object as input.</p>
+<p>We are aware that scSHC does not run on Windows machine at the moment due to the mccores error. If you are on a Windows machine, specify this as a parameter as <code>windows = TRUE</code> in the function <code>get_clust_assignments()</code>.</p>
+>>>>>>> d00ede4a594bd39796e3dd18c2362f703b0c64f8
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run All Clustering Algorithms</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">get_clust_assignments</span>(sce, <span class="at">out_dir =</span> <span class="fu">getwd</span>())</span></code></pre></div>
 <p>All clustering assignments will be written to a newly created alg_clust_assign subdirectory within the current working directory, or another directory specified in the out_dir parameter. The format for the clustering assignments is a .csv file containing the cell names in column “cells”, and the cluster assignments in the column “clust_assign”.</p>
@@ -243,7 +260,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Here is how to generate an adjusted rand index table/bar graph for CHAI_CSPA, CHAI_SNF, and the rest of the algorithms, using the <code>eval_function</code> in CHAI.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a dataframe for ARI, to make into bargraph</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<<<<<<< HEAD
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>ari_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="st">&quot;Algorithm&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;CHAI_CSPA&quot;</span>, <span class="st">&quot;CHAI_SNF&quot;</span>), <span class="st">&quot;ARI&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">eval_function</span>(cspa_clusters<span class="sc">@</span>.Data, ground_truth<span class="sc">$</span>clust_assign),<span class="fu">eval_function</span>(snf_clusters<span class="sc">@</span>.Data, ground_truth<span class="sc">$</span>clust_assign)))</span>
+=======
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>ari_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="st">&quot;Algorithm&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;CHAI_CSPA&quot;</span>, <span class="st">&quot;CHAI_SNF&quot;</span>), <span class="st">&quot;ARI&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">eval_function</span>(cspa_clusters<span class="sc">@</span>.Data, sdf_metadata<span class="sc">$</span>Graph.based),<span class="fu">eval_function</span>(snf_clusters<span class="sc">@</span>.Data, sdf_metadata<span class="sc">$</span>Graph.based)))</span>
+>>>>>>> d00ede4a594bd39796e3dd18c2362f703b0c64f8
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate over the rest of alg_clust_assign and add to the ari_table</span></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">&quot;alg_clust_assign&quot;</span>)</span>
@@ -267,6 +288,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Algorithm&quot;</span>, <span class="at">y =</span> <span class="st">&quot;ARI&quot;</span>, <span class="at">title =</span> <span class="st">&quot;ARI Evaluation for Dataset&quot;</span>) <span class="sc">+</span></span>
 <span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
 <span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
+<<<<<<< HEAD
 <span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;ari_eval_plot&quot;</span>, <span class="at">plot =</span> plot, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">8</span>)</span>
 <span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(ari_table, <span class="st">&quot;ari_table.csv&quot;</span>)</span></code></pre></div>
@@ -369,6 +391,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb13-88"><a href="#cb13-88" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [172] e1071_1.7-14            RSpectra_0.16-1         later_1.3.2            </span></span>
 <span id="cb13-89"><a href="#cb13-89" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [175] viridisLite_0.4.2       class_7.3-22            tibble_3.2.1           </span></span>
 <span id="cb13-90"><a href="#cb13-90" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [178] FateID_0.2.2            cluster_2.1.6           globals_0.16.2</span></span></code></pre></div>
+=======
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;ari_eval_plot&quot;</span>, <span class="at">plot =</span> plot, <span class="at">width =</span> <span class="dv">10</span>, <span class="at">height =</span> <span class="dv">8</span>)</span></code></pre></div>
+>>>>>>> d00ede4a594bd39796e3dd18c2362f703b0c64f8
 </div>
 <div id="todo-add-visualization-and-references." class="section level1">
 <h1>TODO: Add Visualization and References.</h1>
