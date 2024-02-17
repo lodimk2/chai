@@ -4,12 +4,24 @@
 \alias{sc3_assign_func}
 \title{Run SC3}
 \usage{
-sc3_assign_func(sce, out_dir = getwd())
+sc3_assign_func(
+  sce,
+  out_dir = getwd(),
+  n_cores = 1,
+  svm_max = 1000,
+  max_k = 15
+)
 }
 \arguments{
 \item{sce}{SingleCellExperiment object of the dataset}
 
 \item{out_dir}{Directory where output should be written to. Defaults to the current working directory. Will automatically create a directory called 'alg_clust_assign' to house all algorithm assignments}
+
+\item{n_cores}{Computer cores for parallel library allocated for running functions.}
+
+\item{svm_max}{Max number of cells to use for SVM. Default is 1000}
+
+\item{max_k}{max_k for sc3 to run to determine optimal clustering.}
 }
 \description{
 Function to run SC3 clustering algorithm.
@@ -17,4 +29,4 @@ Function to run SC3 clustering algorithm.
 \examples{
 sce3_assign_func(sce, out_dir = getwd())
 }
-\keyword{RaceID}
+\keyword{SC3}

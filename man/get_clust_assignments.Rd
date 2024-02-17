@@ -4,12 +4,24 @@
 \alias{get_clust_assignments}
 \title{Run All Clustering Assignment Algorithms currently in the pipeline}
 \usage{
-get_clust_assignments(sce, out_dir = getwd())
+get_clust_assignments(
+  sce,
+  out_dir = getwd(),
+  n_cores = 1,
+  svm_max = 1000,
+  max_k = 15
+)
 }
 \arguments{
 \item{sce}{SingleCellExperiment object of the dataset}
 
 \item{out_dir}{Directory where output should be written to. Defaults to the current working directory. Will automatically create a directory called 'alg_clust_assign' to house all algorithm assignments}
+
+\item{n_cores}{Computer cores for parallel library allocated for running functions.}
+
+\item{svm_max}{define the maximum number of cells below which SVM is not run.}
+
+\item{max_k}{maxk range for sc3}
 }
 \description{
 Function to run all clustering algorithms (Seurat, scSHC, Spectrum, RaceID, SC3).

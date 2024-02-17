@@ -81,11 +81,12 @@ seurat_assign_func <- function(sce, out_dir = getwd()) {
 #' Function to run scSHC clustering algorithm.
 #' @param sce SingleCellExperiment object of the dataset
 #' @param out_dir Directory where output should be written to. Defaults to the current working directory. Will automatically create a directory called 'alg_clust_assign' to house all algorithm assignments
+#' @param n_cores CPU cores for parallel library allocated for running functions. 
 #' @keywords scSHC
 #' @export 
 #' @examples
 #' scSHC_assign_func(sce, out_dir = getwd())
-scSHC_assign_func <- function(sce, out_dir = getwd()) {
+scSHC_assign_func <- function(sce, out_dir = getwd(), n_cores=1) {
 
     if (!dir.exists(paste0(out_dir, "/alg_clust_assign"))){
     dir.create(paste0(out_dir, "/alg_clust_assign"))
@@ -93,7 +94,7 @@ scSHC_assign_func <- function(sce, out_dir = getwd()) {
     #print("alg_clust_assign dir already exists")
     }
 
-    clusters <- scSHC::scSHC(counts(sce))
+    clusters <- scSHC::scSHC(counts(sce), cores=n_cores)
     #View(clusters[[1]])
 
     scSHC_clust_assign <- as.data.frame(clusters[[1]])
@@ -145,11 +146,14 @@ raceid_assign_func <- function(sce, out_dir = getwd()) {
 #' Function to run SC3 clustering algorithm.
 #' @param sce SingleCellExperiment object of the dataset
 #' @param out_dir Directory where output should be written to. Defaults to the current working directory. Will automatically create a directory called 'alg_clust_assign' to house all algorithm assignments
-#' @keywords RaceID
+#' @param n_cores Computer cores for parallel library allocated for running functions. 
+#' @param svm_max Max number of cells to use for SVM. Default is 1000 
+#' @param max_k max_k for sc3 to run to determine optimal clustering.
+#' @keywords SC3
 #' @export
 #' @examples
 #' sce3_assign_func(sce, out_dir = getwd())
-sc3_assign_func <- function(sce, out_dir = getwd()) {
+sc3_assign_func <- function(sce, out_dir = getwd(), n_cores=1, svm_max = 1000, max_k = 15) {
 
     if (!dir.exists(paste0(out_dir, "/alg_clust_assign"))){
     dir.create(paste0(out_dir, "/alg_clust_assign"))
@@ -168,9 +172,10 @@ sc3_assign_func <- function(sce, out_dir = getwd()) {
     
     rowData(sce_sc3)$feature_symbol <- rownames(sce_sc3)
     sce_sc3 <- sce_sc3[!duplicated(rowData(sce_sc3)$feature_symbol), ]
-    sce_sc3 <- SC3::sc3_estimate_k(sce_sc3)
+    #sce_sc3 <- SC3::sc3_estimate_k(sce_sc3)
    
-    sce_sc3 <- SC3::sc3(sce_sc3, ks = 2:as.integer(metadata(sce_sc3)$sc3$k_estimation), n_cores = 4)
+    #sce_sc3 <- SC3::sc3(sce_sc3, ks = 2:as.integer(metadata(sce_sc3)$sc3$k_estimation), n_cores = n_cores, svm_max=svm_max)
+    sce_sc3 <- SC3::sc3(sce_sc3, ks = 2:as.integer(max_k), n_cores = n_cores, svm_max=svm_max)
     col_data <- colData(sce_sc3)
     last_col <- col_data[, tail(seq_len(ncol(col_data)), 1)]
     
@@ -189,7 +194,7 @@ sc3_assign_func <- function(sce, out_dir = getwd()) {
 #' @export 
 #' @examples
 #' choir_assign_func(sce, out_dir = getwd())
-choir_assign_func <- function(sce, out_dir = getwd()) {
+choir_assign_func <- function(sce, out_dir = getwd(), n_cores=1) {
   
   if (!dir.exists(paste0(out_dir, "/alg_clust_assign"))){
     dir.create(paste0(out_dir, "/alg_clust_assign"))
@@ -204,7 +209,7 @@ choir_assign_func <- function(sce, out_dir = getwd()) {
   print("Created new_object!!")
   seurat_object <- new_object
   print("saved seurat_object to new object variable")
-  seurat_object <- CHOIR::CHOIR(seurat_object, n_cores = 2)
+  seurat_object <- CHOIR::CHOIR(seurat_object, n_cores = n_cores)
   choir_assignments <- cbind(colnames(sce), seurat_object$CHOIR_clusters_0.05)
 
   colnames(choir_assignments) <- c("cells", "clust_assign")
@@ -217,11 +222,14 @@ choir_assign_func <- function(sce, out_dir = getwd()) {
 #' Function to run all clustering algorithms (Seurat, scSHC, Spectrum, RaceID, SC3).
 #' @param sce SingleCellExperiment object of the dataset
 #' @param out_dir Directory where output should be written to. Defaults to the current working directory. Will automatically create a directory called 'alg_clust_assign' to house all algorithm assignments
+#' @param n_cores Computer cores for parallel library allocated for running functions. 
+#' @param svm_max define the maximum number of cells below which SVM is not run.
+#' @param max_k maxk range for sc3
 #' @keywords All Algorithm Wrapper Function
 #' @export
 #' @examples
 #' get_clust_assignments(sce, out_dir = getwd())
-get_clust_assignments <- function(sce, out_dir = getwd()) {
+get_clust_assignments <- function(sce, out_dir = getwd(),n_cores=1, svm_max=1000, max_k=15) {
 
     if (!dir.exists(paste0(out_dir, "/alg_clust_assign"))){
     dir.create(paste0(out_dir, "/alg_clust_assign"))
@@ -236,15 +244,12 @@ get_clust_assignments <- function(sce, out_dir = getwd()) {
     print("Running RaceID")
     invisible(capture.output(raceid_assign_func(sce, out_dir)))
     print("Running SC3")
-    invisible(capture.output(sc3_assign_func(sce, out_dir)))
+    invisible(capture.output(sc3_assign_func(sce, out_dir, n_cores=n_cores, svm_max=svm_max, max_k=max_k)))
+    print("Running scSHC")
+    invisible(capture.output(scSHC_assign_func(sce, out_dir, n_cores=n_cores)))
     print("Running CHOIR")
-    invisible(capture.output(choir_assign_func(sce, out_dir)))
-    tryCatch({
-        invisible(capture.output(scSHC_assign_func(sce, out_dir)))
-    }, error = function(e) {
-        print("scSHC threw an error.")
-    } 
-    )
+    invisible(capture.output(choir_assign_func(sce, out_dir, n_cores=n_cores)))
+    print("CHOIR currently has a bug. Please run separetely if necessary and add to the alg_clust_assign directory.")
     
 
     print("All clustering assignments are completed.")

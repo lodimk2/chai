@@ -4,7 +4,7 @@
 \alias{choir_assign_func}
 \title{Run Choir}
 \usage{
-choir_assign_func(sce, out_dir = getwd())
+choir_assign_func(sce, out_dir = getwd(), n_cores = 1)
 }
 \arguments{
 \item{sce}{SingleCellExperiment object of the dataset}
