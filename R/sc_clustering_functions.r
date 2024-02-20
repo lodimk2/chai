@@ -175,7 +175,9 @@ sc3_assign_func <- function(sce, out_dir = getwd(), n_cores=1, svm_max = 1000, m
     #sce_sc3 <- SC3::sc3_estimate_k(sce_sc3)
    
     #sce_sc3 <- SC3::sc3(sce_sc3, ks = 2:as.integer(metadata(sce_sc3)$sc3$k_estimation), n_cores = n_cores, svm_max=svm_max)
+    #sce_sc3 <- sc3_prepare(sce_sc3)
     sce_sc3 <- SC3::sc3(sce_sc3, ks = 2:as.integer(max_k), n_cores = n_cores, svm_max=svm_max)
+    sce_sc3 <- SC3::sc3_run_svm(sce_sc3, ks = 2:as.integer(max_k))
     col_data <- colData(sce_sc3)
     last_col <- col_data[, tail(seq_len(ncol(col_data)), 1)]
     
