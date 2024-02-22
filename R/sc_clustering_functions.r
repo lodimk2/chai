@@ -203,15 +203,7 @@ choir_assign_func <- function(sce, out_dir = getwd(), n_cores=1) {
   }else{
     #print("alg_clust_assign dir already exists")
   }
-  print("Creating Seurat object")
-  new_object <- Seurat::CreateSeuratObject(counts(sce))
-  new_object <- Seurat::NormalizeData(new_object)
-  # TEST LINE TO SEE IF THIS WORKS
-  #new_object <- new_object
-  print("Created new_object!!")
-  seurat_object <- new_object
-  print("saved seurat_object to new object variable")
-  seurat_object <- CHOIR::CHOIR(seurat_object, n_cores = n_cores)
+  seurat_object <- CHOIR::CHOIR(sce, n_cores = n_cores)
   choir_assignments <- cbind(colnames(sce), seurat_object$CHOIR_clusters_0.05)
 
   colnames(choir_assignments) <- c("cells", "clust_assign")
@@ -251,7 +243,7 @@ get_clust_assignments <- function(sce, out_dir = getwd(),n_cores=1, svm_max=1000
     invisible(capture.output(scSHC_assign_func(sce, out_dir, n_cores=n_cores)))
     print("Running CHOIR")
     invisible(capture.output(choir_assign_func(sce, out_dir, n_cores=n_cores)))
-    print("CHOIR currently has a bug. Please run separetely if necessary and add to the alg_clust_assign directory.")
+    #print("CHOIR currently has a bug. Please run separetely if necessary and add to the alg_clust_assign directory.")
     
 
     print("All clustering assignments are completed.")
