@@ -19,6 +19,6 @@ sc3_assign_func(sce, n_cores = 1, svm_max = 1000, max_k = 15)
 Function to run SC3 clustering algorithm.
 }
 \examples{
-sce3_assign_func(sce, out_dir = getwd())
+sce3_assign_func(sce)
 }
 \keyword{SC3}

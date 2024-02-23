@@ -13,6 +13,6 @@ raceid_assign_func(sce)
 Function to run RaceID clustering algorithm.
 }
 \examples{
-raceid_assign_func(sce, out_dir = getwd())
+raceid_assign_func(sce)
 }
 \keyword{RaceID}

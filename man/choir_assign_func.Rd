@@ -13,6 +13,6 @@ choir_assign_func(sce, n_cores = 1)
 Function to run choir clustering algorithm
 }
 \examples{
-choir_assign_func(sce, out_dir = getwd())
+choir_assign_func(sce)
 }
 \keyword{choir}

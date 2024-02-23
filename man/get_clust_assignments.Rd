@@ -4,13 +4,7 @@
 \alias{get_clust_assignments}
 \title{Run All Clustering Assignment Algorithms currently in the pipeline}
 \usage{
-get_clust_assignments(
-  sce,
-  out_dir = getwd(),
-  n_cores = 1,
-  svm_max = 1000,
-  max_k = 15
-)
+get_clust_assignments(sce, n_cores = 1, svm_max = 500, max_k = 15)
 }
 \arguments{
 \item{sce}{SingleCellExperiment object of the dataset}
@@ -25,7 +19,7 @@ get_clust_assignments(
 Function to run all clustering algorithms (Seurat, scSHC, Spectrum, RaceID, SC3).
 }
 \examples{
-get_clust_assignments(sce, out_dir = getwd())
+get_clust_assignments(sce)
 }
 \keyword{Algorithm}
 \keyword{All}

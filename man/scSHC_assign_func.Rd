@@ -15,6 +15,6 @@ scSHC_assign_func(sce, n_cores = 1)
 Function to run scSHC clustering algorithm.
 }
 \examples{
-scSHC_assign_func(sce, out_dir = getwd())
+scSHC_assign_func(sce)
 }
 \keyword{scSHC}

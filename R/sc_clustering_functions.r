@@ -29,7 +29,7 @@ spectrum_assign_func <- function(sce) {
 #' @import Seurat
 #' @export
 #' @examples
-#' seurat_assign_func(sce, out_dir = getwd())
+#' seurat_assign_func(sce)
 seurat_assign_func <- function(sce) {
     
     sim_groups_convert <- Seurat::CreateSeuratObject(counts = counts(sce))
@@ -70,16 +70,16 @@ seurat_assign_func <- function(sce) {
 #' @keywords scSHC
 #' @export 
 #' @examples
-#' scSHC_assign_func(sce, out_dir = getwd())
+#' scSHC_assign_func(sce)
 scSHC_assign_func <- function(sce, n_cores=1) {
-
+    
+    clusters <- scSHC::scSHC(counts(sce), cores=n_cores)
     scSHC_clust_assign <- as.data.frame(clusters[[1]])
     scSHC_clust_assign$cells <- rownames(scSHC_clust_assign)
     colnames(scSHC_clust_assign)[1] <- "clust_assign"
 
     scSHC_clust_assign <- scSHC_clust_assign[, c(2, 1)]
 
-    write.csv(scSHC_clust_assign,paste0(out_dir, "/alg_clust_assign/scSHC_clust_assign.csv"))
     colData(sce)$scSHC_assign <- scSHC_clust_assign$clust_assign
     return(sce)
 }
@@ -91,7 +91,7 @@ scSHC_assign_func <- function(sce, n_cores=1) {
 #' @keywords RaceID
 #' @export
 #' @examples
-#' raceid_assign_func(sce, out_dir = getwd())
+#' raceid_assign_func(sce)
 raceid_assign_func <- function(sce) {
 
     sc <- RaceID::SCseq(counts(sce))
@@ -120,7 +120,7 @@ raceid_assign_func <- function(sce) {
 #' @keywords SC3
 #' @export
 #' @examples
-#' sce3_assign_func(sce, out_dir = getwd())
+#' sce3_assign_func(sce)
 sc3_assign_func <- function(sce, n_cores=1, svm_max = 1000, max_k = 15) {
     sce_sc3 <- sce
     rowData(sce_sc3)$feature_symbol <- rownames(sce_sc3)
@@ -145,7 +145,7 @@ sc3_assign_func <- function(sce, n_cores=1, svm_max = 1000, max_k = 15) {
 #' @keywords choir
 #' @export 
 #' @examples
-#' choir_assign_func(sce, out_dir = getwd())
+#' choir_assign_func(sce)
 choir_assign_func <- function(sce, n_cores=1) {
   
   seurat_object <- CHOIR::CHOIR(sce, n_cores = n_cores)
@@ -166,20 +166,20 @@ choir_assign_func <- function(sce, n_cores=1) {
 #' @keywords All Algorithm Wrapper Function
 #' @export
 #' @examples
-#' get_clust_assignments(sce, out_dir = getwd())
-get_clust_assignments <- function(sce, out_dir = getwd(),n_cores=1, svm_max=1000, max_k=15) {
+#' get_clust_assignments(sce)
+get_clust_assignments <- function(sce, n_cores=1, svm_max=500, max_k=15) {
     print("Running Seurat")
-    sce <- seurat_assign_func(sce, out_dir)
+    sce <- seurat_assign_func(sce)
     print("Running RaceID")
-    sce <- raceid_assign_func(sce, out_dir)
+    sce <- raceid_assign_func(sce)
     print("Running Spectrum")
-    sce <- (spectrum_assign_func(sce, out_dir))
+    sce <- spectrum_assign_func(sce)
     print("Running SC3")
-    sce <- sc3_assign_func(sce, out_dir, n_cores=n_cores, svm_max=svm_max, max_k=max_k)
+    sce <- sc3_assign_func(sce, n_cores=n_cores, svm_max=svm_max, max_k=max_k)
     print("Running scSHC")
-    sce <- (scSHC_assign_func(sce, out_dir, n_cores=n_cores))
+    sce <- (scSHC_assign_func(sce, n_cores=n_cores))
     print("Running CHOIR")
-    sce <- choir_assign_func(sce, out_dir, n_cores=n_cores)
+    sce <- choir_assign_func(sce, n_cores=n_cores)
     print("All clustering assignments are completed.")
     return(sce)
 }
