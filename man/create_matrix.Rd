@@ -4,10 +4,10 @@
 \alias{create_matrix}
 \title{Creates a Binary Similarity Matrix for Clustering Assignments. Internal Function.}
 \usage{
-create_matrix(assignment_df)
+create_matrix(assignment_col)
 }
 \arguments{
-\item{home_dir}{SingleCellExperiment object of the dataset}
+\item{assignment_col}{column containing clustering assignments}
 }
 \description{
 To be used internally for the create_matrix_list function

@@ -4,10 +4,10 @@
 \alias{create_matrix_list}
 \title{Create List of Similarity Matrices based on Clustering Assignments}
 \usage{
-create_matrix_list(home_dir = getwd())
+create_matrix_list(sce)
 }
 \arguments{
-\item{home_dir}{Directory where subdirectories are stored, such as ground truth, alg_clust_assign, data.}
+\item{sce}{Directory where subdirectories are stored, such as ground truth, alg_clust_assign, data.}
 }
 \description{
 Create Similarity Matrices for each clustering assignment and add it to a list. Parses the "alg_clust_assign" directory. List can be used for both CSPA and SNF

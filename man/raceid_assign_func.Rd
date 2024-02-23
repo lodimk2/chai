@@ -4,12 +4,10 @@
 \alias{raceid_assign_func}
 \title{Run RaceID}
 \usage{
-raceid_assign_func(sce, out_dir = getwd())
+raceid_assign_func(sce)
 }
 \arguments{
 \item{sce}{SingleCellExperiment object of the dataset}
-
-\item{out_dir}{Directory where output should be written to. Defaults to the current working directory. Will automatically create a directory called 'alg_clust_assign' to house all algorithm assignments}
 }
 \description{
 Function to run RaceID clustering algorithm.
