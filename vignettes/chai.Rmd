@@ -1,5 +1,5 @@
 ---
-title: "CHAI: consensus Clustering tHrough similArIty matrIces for single cell type identification"
+title: "CHAI: consensus Clustering tHrough similArIty matrIx integratIon for single cell type identification"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{chai_vignette}
@@ -48,7 +48,7 @@ Be sure to load the counts and logcounts into the single cell experiment object.
 
 For test data, we provide the Mouse_1 dataset from the widely used Baron datasets. This is accessible within the CHAI package. 
 
-```{r, message=FALSE, warning=FALSE, error=FALSE}
+```{r, eval=FALSE}
 # Load data
 data("baron_mouse_1")
 
@@ -69,7 +69,7 @@ For more advanced parameter options, please see the documentation of the ```get_
 NOTE: If you are using a Windows machine, please set n_cores to 1. 
 
 
-```{r, message=FALSE, warning=FALSE, error=FALSE}
+```{r, eval=FALSE}
 # Run All Clustering Algorithms
 sce <- get_clust_assignments(sce, n_cores = 12, svm_max = 200, max_k = 15)
 ```
@@ -90,7 +90,7 @@ Both AvgSim and SNF consensus clustering are based on binary similarity matrices
 Therefore, we are able to create a binary similarity matrix for each clustering algorithm in the CHAI workflow. We store each matrix in a list format, which makes them easier to access for downstream functions. 
 
 The function to create the list of similarity matrices takes as parameter the original SingleCellExperiment object. We also recommend checking the length of similarity_matrix_list to make sure that the number of desired algorithms are present in the list.
-```{r,  message=FALSE, warning=FALSE, error=FALSE}
+```{r, eval=FALSE}
 # Generate list of binary similarity matrices 
 similarity_matrix_list = create_matrix_list(sce)
 
@@ -101,7 +101,7 @@ length(similarity_matrix_list)
 
 To run AvgSim, we must create an average ranking matrix of each binary similarity matrix in the similarity_matrix_list.
 
-```{r, message=FALSE, warning=FALSE, error=FALSE}
+```{r,eval=FALSE}
 # Generate list of binary similarity matrices 
 AvgSim_matrix <- create_average_matrix(similarity_matrix_list)
 ```
@@ -119,14 +119,14 @@ CHAI supports running Spectral Clustering on either the AvgSim_matrix or the snf
 
 If a user already knows the true number of clusters in the dataset, they can simply run Spectral Clustering on either matrix. We use the AvgSim_matrix as an example here, but it is interchangable with the SNF_matrix in the case of this function. 
 ```{r, eval=FALSE}
-# Run Spectral clustering on snf_matrix. To run on cspa_average_matrix, replace snf_matrix with cspa_average_matrix in this function. 
+# Run Spectral clustering on AvgSim_matrix. To run on snf_matrix, replace AvgSim_matrix with snf_matrix in this function. 
 true_k <- 9
 AvgSim_matrix_clusters <- spectral_clustering(AvgSim_matrix, true_k)
 ```
 
 If the true number of clusters is not known, users can determine the "best_k" for Spectral Clustering by evaluating the optimal silhouette score. The CHAI workflow provides a method to do so. 
 It is important to do separate evaluations for best_k on the AvgSim_matrix and SNF_matrix, as the data distributions are different, therefore the optimal partioning may be different as well.
-```{r, message=FALSE, warning=FALSE, error=FALSE}
+```{r,eval=FALSE}
 
 # Determine best K through silhouette score. 
 AvgSim_best_k <- calc_silhouette_scores(AvgSim_matrix, 15)
@@ -143,9 +143,9 @@ CHAI calculates the ARI and NMI for each clustering assignment in ```colData(sce
 
 We provide the ground truth labels for the example dataset by loading ```data("baron_mouse_1_ground_truth")```, stored in the column ```clust_assign```. 
 
-NOTE: When adding the CHAI assignments to the SingleCellExperiment object, it is crucial to use the word ```"_assign"``` in the column as we have done below, or else the evaluation_function will not recognize it as a clustering assignment column. 
+NOTE: When adding the CHAI assignments to the SingleCellExperiment object, it is crucial to use the word ```"_assign"``` in the column as we have done below, or else the ```evaluation_table``` function will not recognize it as a clustering assignment column. 
 
-```{r, message=FALSE, warning=FALSE, error=FALSE}
+```{r, eval=FALSE}
 data("baron_mouse_1_ground_truth")
 # First, add CHAI_AvgSim_assign to the colData of the SingleCellExperiment object. 
 colData(sce)$CHAI_AvgSim_assign <- AvgSim_clusters@.Data
@@ -154,9 +154,11 @@ colData(sce)$CHAI_AvgSim_assign <- AvgSim_clusters@.Data
 evaluation_table <- evaluation_table(sce, baron_mouse_1_ground_truth$clust_assign)
 
 ```
+
 # Session Info 
 
 ```{r}
 sessionInfo()
 ```
+
 # TODO: Add Visualization, Quick Start, and References.  
