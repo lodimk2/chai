@@ -3,9 +3,10 @@
 ### Introduction 
 CHAI (consensus Clustering tHrough similArIty matrIces for single cell type identification) is a consensus clustering framework that offers two methods for consensus clustering: Average Similarity (AvgSim) and Similarity Network Fusion (SNF).
 
-![chai_diagram drawio](https://github.com/lodimk2/chai/assets/69815640/55da0500-7231-421a-b31a-6406057b94bd)
+![vr_flowchart](https://github.com/lodimk2/chai/assets/69815640/21202365-38f7-4fa9-aeff-c8f5b14c9fe9)
 
 ### Installation Instructions 
+
 You may install CHAI using devtools. 
 
 ```devtools::install_github("lodimk2/chai")```
