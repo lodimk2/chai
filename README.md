@@ -26,7 +26,22 @@ sce <- SingleCellExperiment(assays = list(counts = as.matrix(baron_mouse_1)))
 # Add logcounts 
 sce <- scuttle::logNormCounts(sce)
 ```
+#### CHAI-AvgSim:
 
+```
+# If "eval" is set to TRUE, CHAI will evaluate the best_k for Spectral Clustering using silhouette score. If "eval" is set to false, CHAI will use best_k as the k value for silhouette score.
+# The default is eval being set to TRUE
+best_k <- 15
+CHAI_AvgSim <- function(sce,best_k,eval = TRUE)
+```
 
-### Tutorial
-For a tutorial, please see the vignettes directory. 
+#### CHAI-SNF:
+
+```
+# If "eval" is set to TRUE, CHAI will evaluate the best_k for Spectral Clustering using silhouette score. If "eval" is set to false, CHAI will use best_k as the k value for silhouette score.
+# The default is eval being set to TRUE
+best_k <- 15
+CHAI_SNF <- function(sce,best_k,eval = TRUE)
+```
+### In Depth Tutorial
+For a more detailed tutorial, including adding your own clustering algorithms to CHAI and including other "omics" data, please see the vignette. 
