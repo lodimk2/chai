@@ -65,4 +65,5 @@ For a more detailed tutorial, including adding your own clustering algorithms to
 If you use CHAI, please cite our manuscript: [INSERT CITATION HERE]
 
 ### Questions and Support:
-For any questions or comments, please reach out to Musaddiq Lodi @ ```lodimk2@vcu.edu```
+For any questions or comments, please reach out to Musaddiq Lodi @ lodimk2@vcu.edu
+
