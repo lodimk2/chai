@@ -1,6 +1,10 @@
 ---
 title: "CHAI: consensus Clustering tHrough similArIty matrIx integratIon for single cell type identification"
 output: rmarkdown::html_vignette
+knit: (function(inputFile, encoding) {
+        Sys.setenv(RSTUDIO_PANDOC='/opt/anaconda3/bin/pandoc');
+        rmarkdown::render(inputFile,
+                        encoding=encoding) 
 vignette: >
   %\VignetteIndexEntry{chai_vignette}
   %\VignetteEngine{knitr::rmarkdown}

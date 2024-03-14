@@ -8,7 +8,6 @@
 #' @import cluster
 #' @import kernlab
 #' @export 
-
 calc_silhouette_scores <- function(matrix, max_k=15) {
     best_score <- -1000000
     best_k <- 0
@@ -35,8 +34,9 @@ calc_silhouette_scores <- function(matrix, max_k=15) {
 #' @keywords Run Spectral Clustering
 #' @import SNFtool
 #' @export 
-#' @examples
+#' @examples \dontrun{
 #' best_k <- calc_silhouette_score(matrix, 15)
+#' }
 
 spectral_clustering <- function(matrix, best_k) {
     clusters <- SNFtool::spectralClustering(as.kernelMatrix(matrix), K = best_k)

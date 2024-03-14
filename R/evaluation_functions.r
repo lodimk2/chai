@@ -6,8 +6,6 @@
 #' @keywords ARI
 #' @import mclust
 #' @export 
-
-
 ari_function <- function(clusters, ground_truth) {
     return(mclust::adjustedRandIndex(ground_truth, clusters))
 }
@@ -21,27 +19,25 @@ ari_function <- function(clusters, ground_truth) {
 #' @keywords NMI
 #' @import aricode
 #' @export 
-#' @examples
+#' @examples \dontrun{
 #' nmi_function(snf_clusters@.Data, ground_truth$clust_assign)
+#' }
 
 nmi_function <- function(clusters, ground_truth) {
     return(aricode::NMI(ground_truth, clusters))
 }
-
-
-
-
 #' Create Eval Table
 #'
 #' Function to run ARI
-#' @param clusters Dataframe column containing clustering assignments 
+#' @param sce SingleCellExperiment object where clustering assignments are stored in colData
 #' @param ground_truth Dataframe column containing ground_truth assignments
 #' @keywords NMI
 #' @import aricode
 #' @import mclust
 #' @export 
-#' @examples
+#' @examples \dontrun{
 #' evaluate_table(sce, ground_truth$clust_assign)
+#' }
 evaluation_table <- function(sce, ground_truth) {
   df <- as.data.frame(colData(sce))
   # Initialize lists to store results

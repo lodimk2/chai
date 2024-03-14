@@ -8,11 +8,15 @@ choir_assign_func(sce, n_cores = 1)
 }
 \arguments{
 \item{sce}{SingleCellExperiment object of the dataset}
+
+\item{n_cores}{Number of CPU cores you want to allocate to this. NOTE: On windows machines this will break if n_cores > 1.}
 }
 \description{
 Function to run choir clustering algorithm
 }
 \examples{
+\dontrun{
 choir_assign_func(sce)
+}
 }
 \keyword{choir}

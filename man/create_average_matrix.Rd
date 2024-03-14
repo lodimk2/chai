@@ -17,8 +17,12 @@ Function to create average similarity matrix for CHAI_AvgSim
 Function to create average similarity matrix for CHAI_AvgSim
 }
 \examples{
+\dontrun{
 create_average_matrix(similarity_matrix_list)
+}
+\dontrun{
 create_average_matrix(similarity_matrix_list)
+}
 }
 \keyword{Average}
 \keyword{Matrix}

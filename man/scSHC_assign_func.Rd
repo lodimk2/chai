@@ -15,6 +15,8 @@ scSHC_assign_func(sce, n_cores = 1)
 Function to run scSHC clustering algorithm.
 }
 \examples{
+\dontrun{
 scSHC_assign_func(sce)
+}
 }
 \keyword{scSHC}

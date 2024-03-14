@@ -4,8 +4,9 @@
 #' @param sce Directory where subdirectories are stored, such as ground truth, alg_clust_assign, data. 
 #' @keywords Similarity Matrix List Creation
 #' @export 
-#' @examples
+#' @examples \dontrun{
 #' create_matrix_list(getwd())
+#' }
 create_matrix_list <- function(sce) {
     dataframe <- as.data.frame(colData(sce))
     sim_matrix_list <- list()
@@ -25,8 +26,9 @@ create_matrix_list <- function(sce) {
 #' To be used internally for the create_matrix_list function 
 #' @param assignment_col column containing clustering assignments
 #' @keywords Binary Similarity Matrix Creation
-#' @examples
+#' @examples \dontrun{
 #' create_matrix_list(getwd())
+#' }
 create_matrix <- function(assignment_col) {
     clusters <- unique(assignment_col)
     n <- length(assignment_col)

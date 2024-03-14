@@ -13,6 +13,8 @@ spectrum_assign_func(sce)
 Function to run Spectrum clustering algorithm
 }
 \examples{
+\dontrun{
 spectrum_assign_func(sce)
+}
 }
 \keyword{Spectrum}

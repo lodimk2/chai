@@ -15,6 +15,8 @@ nmi_function(clusters, ground_truth)
 Function to run NMI
 }
 \examples{
+\dontrun{
 nmi_function(snf_clusters@.Data, ground_truth$clust_assign)
+}
 }
 \keyword{NMI}

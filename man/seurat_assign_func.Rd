@@ -13,6 +13,8 @@ seurat_assign_func(sce)
 Function to run Seurat clustering algorithm. Runs Seurat SLC and Seurat Louvain clustering
 }
 \examples{
+\dontrun{
 seurat_assign_func(sce)
+}
 }
 \keyword{Seurat}

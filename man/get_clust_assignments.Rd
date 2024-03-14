@@ -19,7 +19,9 @@ get_clust_assignments(sce, n_cores = 1, svm_max = 500, max_k = 15)
 Function to run all clustering algorithms (Seurat, scSHC, Spectrum, RaceID, SC3).
 }
 \examples{
+\dontrun{
 get_clust_assignments(sce)
+}
 }
 \keyword{Algorithm}
 \keyword{All}

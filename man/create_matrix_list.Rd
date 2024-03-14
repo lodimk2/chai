@@ -13,7 +13,9 @@ create_matrix_list(sce)
 Create Similarity Matrices for each clustering assignment and add it to a list. Parses the "alg_clust_assign" directory. List can be used for both CSPA and SNF
 }
 \examples{
+\dontrun{
 create_matrix_list(getwd())
+}
 }
 \keyword{Creation}
 \keyword{List}

@@ -13,7 +13,9 @@ create_matrix(assignment_col)
 To be used internally for the create_matrix_list function
 }
 \examples{
+\dontrun{
 create_matrix_list(getwd())
+}
 }
 \keyword{Binary}
 \keyword{Creation}

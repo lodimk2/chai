@@ -7,14 +7,16 @@
 evaluation_table(sce, ground_truth)
 }
 \arguments{
-\item{ground_truth}{Dataframe column containing ground_truth assignments}
+\item{sce}{SingleCellExperiment object where clustering assignments are stored in colData}
 
-\item{clusters}{Dataframe column containing clustering assignments}
+\item{ground_truth}{Dataframe column containing ground_truth assignments}
 }
 \description{
 Function to run ARI
 }
 \examples{
+\dontrun{
 evaluate_table(sce, ground_truth$clust_assign)
+}
 }
 \keyword{NMI}

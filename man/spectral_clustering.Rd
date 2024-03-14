@@ -15,7 +15,9 @@ spectral_clustering(matrix, best_k)
 On either CSPA or SNF matrix, run spectral clustering with user defined k.
 }
 \examples{
+\dontrun{
 best_k <- calc_silhouette_score(matrix, 15)
+}
 }
 \keyword{Clustering}
 \keyword{Run}

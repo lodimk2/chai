@@ -13,7 +13,9 @@ create_snf_matrix(similarity_matrix_list)
 Function to create SNF matrix
 }
 \examples{
+\dontrun{
 snf_matrix <- create_snf_matrix(similarity_matrix_list)
+}
 }
 \keyword{Matrix}
 \keyword{SNF}
