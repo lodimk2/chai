@@ -1,10 +1,11 @@
 #' Run Spectrum
 #'
-#' Function to run Spectrum clustering algorithm 
+#' Function to run Spectrum clustering algorithm
 #' @param sce SingleCellExperiment object of the dataset
 #' @keywords Spectrum
 #' @import Spectrum
-#' @export 
+#' @export
+#' @import SingleCellExperiment
 #' @examples
 #' spectrum_assign_func(sce)
 spectrum_assign_func <- function(sce) {
@@ -17,7 +18,7 @@ spectrum_assign_func <- function(sce) {
     spectrum_assignments <- cbind(1:length(colnames(sim_df)),test3[[2]]$assignments)
     spectrum_assignments <- as.data.frame(spectrum_assignments)
     colnames(spectrum_assignments) <- c("cells", "clust_assign")
-    colData(sce)$spectrum_assign <- spectrum_assignments$clust_assign
+    SingleCellExperiment::colData(sce)$spectrum_assign <- spectrum_assignments$clust_assign
     return(sce)
 }
 
@@ -28,6 +29,7 @@ spectrum_assign_func <- function(sce) {
 #' @keywords Seurat
 #' @import Seurat
 #' @export
+#' @import SingleCellExperiment
 #' @examples
 #' seurat_assign_func(sce)
 seurat_assign_func <- function(sce) {
@@ -57,8 +59,8 @@ seurat_assign_func <- function(sce) {
     colnames(seurat_slc_assign) <- c("clust_assign", "cells")
     seurat_slc_assign <- seurat_slc_assign[, c(2,1)]
 
-    colData(sce)$seurat_louvain_assign <- seurat_louvain_assign$clust_assign
-    colData(sce)$seurat_slc_assign <- seurat_slc_assign$clust_assign
+    SingleCellExperiment::colData(sce)$seurat_louvain_assign <- seurat_louvain_assign$clust_assign
+    SingleCellExperiment::colData(sce)$seurat_slc_assign <- seurat_slc_assign$clust_assign
     return(sce)
 }
 
@@ -68,19 +70,20 @@ seurat_assign_func <- function(sce) {
 #' @param sce SingleCellExperiment object of the dataset
 #' @param n_cores CPU cores for parallel library allocated for running functions. 
 #' @keywords scSHC
-#' @export 
+#' @export
+#' @import SingleCellExperiment
 #' @examples
 #' scSHC_assign_func(sce)
 scSHC_assign_func <- function(sce, n_cores=1) {
     
-    clusters <- scSHC::scSHC(counts(sce), cores=n_cores)
+    clusters <- scSHC::scSHC(SingleCellExperiment::counts(sce), cores=n_cores)
     scSHC_clust_assign <- as.data.frame(clusters[[1]])
     scSHC_clust_assign$cells <- rownames(scSHC_clust_assign)
     colnames(scSHC_clust_assign)[1] <- "clust_assign"
 
     scSHC_clust_assign <- scSHC_clust_assign[, c(2, 1)]
 
-    colData(sce)$scSHC_assign <- scSHC_clust_assign$clust_assign
+    SingleCellExperiment::colData(sce)$scSHC_assign <- scSHC_clust_assign$clust_assign
     return(sce)
 }
 
@@ -90,6 +93,7 @@ scSHC_assign_func <- function(sce, n_cores=1) {
 #' @param sce SingleCellExperiment object of the dataset
 #' @keywords RaceID
 #' @export
+#' @import SingleCellExperiment
 #' @examples
 #' raceid_assign_func(sce)
 raceid_assign_func <- function(sce) {
@@ -106,7 +110,7 @@ raceid_assign_func <- function(sce) {
     #colnames(raceid_ground_truth) <- c("cells", "clust_assign")
     raceid_ground_truth <- raceid_ground_truth[, c(2, 1)]
     colnames(raceid_ground_truth) <- c("cells", "clust_assign")
-    colData(sce)$raceid_assign <- raceid_ground_truth$clust_assign
+    SingleCellExperiment::colData(sce)$raceid_assign <- raceid_ground_truth$clust_assign
     return(sce)
 }
 
@@ -119,22 +123,23 @@ raceid_assign_func <- function(sce) {
 #' @param max_k max_k for sc3 to run to determine optimal clustering.
 #' @keywords SC3
 #' @export
+#' @import SingleCellExperiment
 #' @examples
 #' sce3_assign_func(sce)
 sc3_assign_func <- function(sce, n_cores=1, svm_max = 1000, max_k = 15) {
     sce_sc3 <- sce
-    rowData(sce_sc3)$feature_symbol <- rownames(sce_sc3)
-    sce_sc3 <- sce_sc3[!duplicated(rowData(sce_sc3)$feature_symbol), ]
+    SingleCellExperiment::rowData(sce_sc3)$feature_symbol <- rownames(sce_sc3)
+    sce_sc3 <- sce_sc3[!duplicated(SingleCellExperiment::rowData(sce_sc3)$feature_symbol), ]
     sce_sc3 <- SC3::sc3(sce_sc3, ks = 2:as.integer(max_k), n_cores = n_cores, svm_max=svm_max)
     #print("Ran sc3_prepare")
     sce_sc3 <- SC3::sc3_run_svm(sce_sc3, ks = 2:as.integer(max_k))
-    col_data <- colData(sce_sc3)
+    col_data <- SingleCellExperiment::colData(sce_sc3)
     last_col <- col_data[, tail(seq_len(ncol(col_data)), 1)]
     
     clust_assign_df <- cbind(rownames(col_data), last_col)
     clust_assign_df <- as.data.frame(clust_assign_df)
     colnames(clust_assign_df) <- c("cells", "clust_assign")
-    colData(sce)$sc3_assign <- clust_assign_df$clust_assign 
+    SingleCellExperiment::colData(sce)$sc3_assign <- clust_assign_df$clust_assign 
     return(sce)
 }
 
@@ -143,7 +148,8 @@ sc3_assign_func <- function(sce, n_cores=1, svm_max = 1000, max_k = 15) {
 #' Function to run choir clustering algorithm 
 #' @param sce SingleCellExperiment object of the dataset
 #' @keywords choir
-#' @export 
+#' @export
+#' @import SingleCellExperiment
 #' @examples
 #' choir_assign_func(sce)
 choir_assign_func <- function(sce, n_cores=1) {
@@ -152,7 +158,7 @@ choir_assign_func <- function(sce, n_cores=1) {
   choir_assignments <- cbind(colnames(sce), seurat_object$CHOIR_clusters_0.05)
   choir_assignments <- as.data.frame(choir_assignments)
   colnames(choir_assignments) <- c("cells", "clust_assign")
-  colData(sce)$choir_assign <- choir_assignments$clust_assign
+  SingleCellExperiment::colData(sce)$choir_assign <- choir_assignments$clust_assign
   return(sce)
 }
 

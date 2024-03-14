@@ -1,8 +1,8 @@
 Package: chai
-Title: CHAI: consensus Clustering tHrough similArIty matrIces for single cell type identification
+Title: CHAI: consensus Clustering tHrough similArIty matrIx integratIon for single cell type identification
 Version: 0.0.0.9110
-Authors@R: 
-    person("Musaddiq", "Lodi", , "lodimk2@vcu.edu", role = c("aut", "cre"))
+Author: Musaddiq Lodi <lodimk2@vcu.edu>, Kezie Osei <oseika@vcu.edu>
+Maintainer: Musaddiq Lodi <lodimk2@vcu.edu>, Kezie Osei <oseika@vcu.edu>
 Description: Consensus Clustering Through Similarity Matrices for Single Cell Type Identification.
 License: MIT + file LICENSE 
 Encoding: UTF-8
@@ -12,7 +12,17 @@ Imports:
     Seurat,
     SeuratObject,
     SingleCellExperiment,
-    Spectrum
+    Spectrum,
+    SNFtool,
+    aricode,
+    cluster,
+    kernlab,
+    mclust,
+    CHOIR,
+    RaceID,
+    SC3,
+    scSHC,
+    Biobase
 Suggests: 
     knitr,
     rmarkdown,

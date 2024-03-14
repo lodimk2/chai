@@ -14,9 +14,6 @@ calc_silhouette_scores(matrix, max_k = 15)
 \description{
 On either CSPA or SNF matrix, determine what the best silhouette score is and choose it as best K.
 }
-\examples{
-best_k <- calc_silhouette_score(matrix, 15)
-}
 \keyword{Determination}
 \keyword{Score}
 \keyword{Silhouette}

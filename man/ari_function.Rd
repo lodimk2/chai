@@ -14,7 +14,4 @@ ari_function(clusters, ground_truth)
 \description{
 Function to run ARI
 }
-\examples{
-eval_function(snf_clusters@.Data, ground_truth$clust_assign)
-}
 \keyword{ARI}

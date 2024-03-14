@@ -6,8 +6,7 @@
 #' @keywords ARI
 #' @import mclust
 #' @export 
-#' @examples
-#' eval_function(snf_clusters@.Data, ground_truth$clust_assign)
+
 
 ari_function <- function(clusters, ground_truth) {
     return(mclust::adjustedRandIndex(ground_truth, clusters))
@@ -42,7 +41,7 @@ nmi_function <- function(clusters, ground_truth) {
 #' @import mclust
 #' @export 
 #' @examples
-#' evaluate_assignments(snf_clusters@.Data, ground_truth$clust_assign)
+#' evaluate_table(sce, ground_truth$clust_assign)
 evaluation_table <- function(sce, ground_truth) {
   df <- as.data.frame(colData(sce))
   # Initialize lists to store results

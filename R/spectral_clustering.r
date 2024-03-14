@@ -8,8 +8,7 @@
 #' @import cluster
 #' @import kernlab
 #' @export 
-#' @examples
-#' best_k <- calc_silhouette_score(matrix, 15)
+
 calc_silhouette_scores <- function(matrix, max_k=15) {
     best_score <- -1000000
     best_k <- 0

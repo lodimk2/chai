@@ -8,5 +8,6 @@
 
 library(testthat)
 library(chai)
+# test_check("chai")
 
-test_check("chai")
+testthat::test_check("chai", edition = 3)

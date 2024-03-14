@@ -15,6 +15,6 @@ evaluation_table(sce, ground_truth)
 Function to run ARI
 }
 \examples{
-evaluate_assignments(snf_clusters@.Data, ground_truth$clust_assign)
+evaluate_table(sce, ground_truth$clust_assign)
 }
 \keyword{NMI}
