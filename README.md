@@ -17,6 +17,14 @@ CHAI contains two methods for consensus clustering: CHAI-AvgSim and CHAI-SNF. We
 
 We provide example data from the Baron Mouse 1 Dataset [citation needed here]. Data should be in the form of a SingleCellExperiment object, with counts and logcounts defined. 
 
+#### Load Dependencies:
+library(chai)
+library(scSHC)
+library(RaceID)
+library(SC3)
+library(SingleCellExperiment)
+library(CHOIR)
+
 #### Load Data:
 
 ```
