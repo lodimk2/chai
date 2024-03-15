@@ -1,8 +1,8 @@
 Package: chai
 Title: CHAI: consensus Clustering tHrough similArIty matrIx integratIon for single cell type identification
 Version: 0.0.0.9110
-Author: Musaddiq Lodi <lodimk2@vcu.edu>, Kezie Osei <oseika@vcu.edu>
-Maintainer: Musaddiq Lodi <lodimk2@vcu.edu>, Kezie Osei <oseika@vcu.edu>
+Authors@R: 
+    c(person("Musaddiq", "Lodi", email = "lodimk2@vcu.edu", role = c("aut", "cre")), person("Kezie", "Osei", email = "oseika@vcu.edu", role = c("aut")), person("Vaishnavi", "Ranganathan", email = "vrangana@andrew.cmu.edu", role = c("aut")))
 Description: Consensus Clustering Through Similarity Matrices for Single Cell Type Identification.
 License: MIT + file LICENSE 
 Encoding: UTF-8

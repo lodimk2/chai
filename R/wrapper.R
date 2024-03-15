@@ -11,20 +11,23 @@ CHAI_AvgSim <- function(sce,best_k,eval = TRUE) {
 
   
   # Generate list of binary similarity matrices 
-  AvgSim_matrix <- create_average_matrix(sce)
-  
+  similarity_matrix_list <- create_matrix_list(sce)
+  AvgSim_matrix <- create_average_matrix(similarity_matrix_list)
+
   # Determines silhouette scores to find the best k
-  
   if (eval == TRUE) {
+  print("Evaluating best_k using Silhouette Score")
   AvgSim_best_k <- calc_silhouette_scores(AvgSim_matrix, best_k)
   }
   else {
+    print("Using user inputted best_k as best_k")
     AvgSim_best_k <- best_k
   }
+  print("Running spectral clustering")
   AvgSim_clusters <- spectral_clustering(AvgSim_matrix, AvgSim_best_k)
   
-  SingleCellExperiment::colData(sce)$CHAI_AvgSim_assign <- AvgSim_clusters@.Data
-  
+  colData(sce)$CHAI_AvgSim_assign <- AvgSim_clusters@.Data
+  print("CHAI_AvgSim assignment added to colData(sce)")
   return(sce)
 }
 
@@ -40,19 +43,23 @@ CHAI_AvgSim <- function(sce,best_k,eval = TRUE) {
 CHAI_SNF <- function(sce,best_k, eval = TRUE) {
 
   # Generate list of binary similarity matrices 
-  snf_matrix <- create_average_matrix(sce)
+  similarity_matrix_list <- create_matrix_list(sce)
+  print("Calculating SNF matrix. This step may take a while depending on dataset size")
+  snf_matrix <- create_snf_matrix(similarity_matrix_list)
   
   if (eval == TRUE) {
   # Detremines silhouette scores to find the best k
+  print("Evaluating best_k using Silhouette Score")
   snf_best_k <- calc_silhouette_scores(snf_matrix, best_k)
+  
   }else{
+    print("Using user inputted best_k as best_k")
     snf_best_k <- best_k
   }
   
   snf_clusters <- spectral_clustering(snf_matrix, snf_best_k)
-  SingleCellExperiment::colData(sce)$chai_snf_assign <- snf_clusters@.Data
-  
-
+  colData(sce)$chai_snf_assign <- snf_clusters@.Data
+  print("CHAI_SNF assignment added to colData(sce)")
   return(sce)
 } 
 

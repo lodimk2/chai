@@ -1,10 +1,9 @@
 ---
-title: "CHAI: consensus Clustering tHrough similArIty matrIx integratIon for single cell type identification"
-output: rmarkdown::html_vignette
-knit: (function(inputFile, encoding) {
-        Sys.setenv(RSTUDIO_PANDOC='/opt/anaconda3/bin/pandoc');
-        rmarkdown::render(inputFile,
-                        encoding=encoding) 
+title: "CHAI: consensus Clustering tHrough similArIty matrix integratIon for single cell type identification"
+output: 
+  prettydoc::html_pretty:
+    theme: leonids
+    highlight: github
 vignette: >
   %\VignetteIndexEntry{chai_vignette}
   %\VignetteEngine{knitr::rmarkdown}
@@ -16,8 +15,12 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+
+![](vr_chai_logi.png){ width=300px height=300px }
+
+
 # Introduction
-CHAI (consensus Clustering tHrough similArIty matrIx integratIon for single cell type identification) is a consensus clustering framework that offers two methods for consensus clustering: Average Similarity (AvgSim) and Similarity Network Fusion (SNF).
+CHAI (consensus Clustering tHrough similArIty matrix integratIon for single cell type identification) is a consensus clustering framework that offers two methods for consensus clustering: Average Similarity (AvgSim) and Similarity Network Fusion (SNF).
 This vignette demonstrates a standard workflow for running both AvgSim and SNF for the purpose of consensus clustering. 
 
 # Install Dependencies
@@ -47,10 +50,10 @@ library(SingleCellExperiment)
 library(CHOIR)
 ```
 # Data Loading and Preprocessing
-CHAI accepts a SingleCellExperiment object as input for running all clustering algorithms. Creating a SingleCellExperiment object for single cell RNA-seq data is well documented, here is an example for creating one using a single cell matrix, where rows are genes and columns are cells. 
+CHAI accepts a SingleCellExperiment object as input for running all clustering algorithms. Here is an example for creating one using a single cell matrix, where rows are genes and columns are cells. 
 Be sure to load the counts and logcounts into the single cell experiment object. 
 
-For test data, we provide the Mouse_1 dataset from the widely used Baron datasets. This is accessible within the CHAI package. 
+For test data, we provide the Mouse_1 dataset from the widely used Baron datasets. This is accessible as an RData object within the CHAI package. 
 
 ```{r, eval=FALSE}
 # Load data
@@ -68,9 +71,9 @@ The CHAI workflow currently supports 6 state-of-the-art clustering methods: Seur
 
 Each clustering assignment is added to the colData() of the SingleCellExperiment object.
 
-For more advanced parameter options, please see the documentation of the ```get_clust_assignments``` function. 
+For more advanced parameter options, see the documentation of the ```get_clust_assignments``` function. 
 
-NOTE: If you are using a Windows machine, please set n_cores to 1. 
+NOTE: If you are using a Windows machine, set n_cores to 1. 
 
 
 ```{r, eval=FALSE}
@@ -84,7 +87,31 @@ You also have the ability to run individual clustering algorithms. Simply call `
 sce <- seurat_assign_func(sce)
 ```
 
-# Create Binary Similarity Matrices
+# Quick Start: CHAI-AvgSim and CHAI-SNF 
+
+We provide two wrapper functions to run CHAI-AvgSim and CHAI-SNF  for your convienience once all clustering algorithms are run using ``` get_clust_assignments```. 
+
+To run CHAI-AvgSim:
+```{r, eval=FALSE}
+# If "eval" is set to TRUE, CHAI will evaluate the best_k for Spectral Clustering using silhouette score. If "eval" is set to false, CHAI will use best_k as the k value for silhouette score.
+# The default is eval being set to TRUE
+best_k <- 15
+sce <- CHAI_AvgSim <- function(sce,best_k,eval = TRUE)
+```
+
+To run CHAI-SNF:
+```{r, eval=FALSE}
+# If "eval" is set to TRUE, CHAI will evaluate the best_k for Spectral Clustering using silhouette score. If "eval" is set to false, CHAI will use best_k as the k value for silhouette score.
+# The default is eval being set to TRUE
+best_k <- 15
+sce <- CHAI_SNF <- function(sce,best_k,eval = TRUE)
+```
+
+# CHAI Step by Step
+
+Below is a step by step description for the steps of CHAI. 
+
+## 1. Create Binary Similarity Matrices
 
 Both AvgSim and SNF consensus clustering are based on binary similarity matrices. In brief, we create a similarity matrix for each cluster assignment with the following rules:
 
@@ -101,7 +128,7 @@ similarity_matrix_list = create_matrix_list(sce)
 length(similarity_matrix_list)
 ```
 
-# Run AvgSim or SNF
+# 2. Run AvgSim or SNF
 
 To run AvgSim, we must create an average ranking matrix of each binary similarity matrix in the similarity_matrix_list.
 
@@ -117,7 +144,7 @@ To run SNF, we must call the SNF function on the similarity_matrix_list.
 snf_matrix <- create_snf_matrix(similarity_matrix_list)
 ```
 
-# Run Spectral Clustering for Consensus Clustering Assignments 
+# 3. Run Spectral Clustering for Consensus Clustering Assignments 
 
 CHAI supports running Spectral Clustering on either the AvgSim_matrix or the snf_matrix. Spectral Clustering requires the specification of a "K" partitioning of the graph, which will be the number of cell clusters in this case. 
 
@@ -142,7 +169,7 @@ AvgSim_clusters <- spectral_clustering(AvgSim_matrix, AvgSim_best_k)
 
 # Evaluation
 
-If known ground_truth is available, CHAI allows you to create a table with Adjusted Rand Index (ARI) and Normalized Mutual Information (NMI). 
+If known ground truth cell types are available, CHAI provides a function to create a table with Adjusted Rand Index (ARI) and Normalized Mutual Information (NMI). 
 CHAI calculates the ARI and NMI for each clustering assignment in ```colData(sce)```.
 
 We provide the ground truth labels for the example dataset by loading ```data("baron_mouse_1_ground_truth")```, stored in the column ```clust_assign```. 
@@ -153,11 +180,83 @@ NOTE: When adding the CHAI assignments to the SingleCellExperiment object, it is
 data("baron_mouse_1_ground_truth")
 # First, add CHAI_AvgSim_assign to the colData of the SingleCellExperiment object. 
 colData(sce)$CHAI_AvgSim_assign <- AvgSim_clusters@.Data
+colData(sce)$CHAI_SNF_assign <- SNF_clusters@.Data
+
 
 # Create evaluation table. 
 evaluation_table <- evaluation_table(sce, baron_mouse_1_ground_truth$clust_assign)
 
 ```
+
+
+# CHAI-ST 
+
+CHAI provides a platform to integrate other "omics" of data, so long as that omic may be represented as a binary matrix. We use spatial transcriptomics as an example, and use the GraphST binary matrix representation for the X,Y Coordinates. 
+
+The steps to run CHAI-ST are slightly different. We recommend using CHAI-SNF, and running SNF twice, once with the clustering algorithms to get the clustering algorithm SNF matrix, and again with the spatial transcriptomics binary matrix along with the clustering algorithms. 
+
+The beginning steps are similar to the standard CHAI workflow. We first infer the clustering assignments for each individual algorithm. This tutorial assumes the SingleCellExperiment object ```sce``` is already created, and the counts and logcounts are added. 
+
+```{r, eval=FALSE}
+# Run get_clust_assignments as in standard CHAI workflow. 
+sce <- get_clust_assignments(sce, n_cores = 12, svm_max = 200, max_k = 15)
+
+
+```
+
+Next, we want to obtain the ```similarity_matrix_list``` separately, rather than use one of the wrapper functions. We can do this using the ```create_matrix_list``` function. Check the length of ```similarity_matrix_list``` and ensure that it is the expected value of 7 if using default CHAI. 
+
+```{r, eval=FALSE}
+# Generate list of binary similarity matrices 
+similarity_matrix_list = create_matrix_list(sce)
+
+length(similarity_matrix_list)
+
+
+```
+
+Now that ```similarity_matrix_list``` is created, we can create our binary matrix representation for the spatial transcriptomics data. The spatial transcriptomics dataframe should have a column for X coordinates titled ```X```, and a column for the Y coordinates titled ```Y```. It is acceptable to keep other columns as the function will only pull from the ```X``` and ```Y``` columns for integration. 
+
+Once the data is in the appropriate format, we can create the binary ST matrix. We perform this operation using the ```ST-Sim``` function, taking the spatial coordinates dataframe as input. 
+
+From there we can run CHAI-ST, which will add a column called ```CHAI_ST_assign``` to the ```colData()``` of the sce object. 
+
+```{r, eval=FALSE}
+# Generate list of binary similarity matrices 
+
+# Assuming that spatial transcriptmics dataframe is called "coordinates_matrix"
+st_matrix <- ST_Sim(coordinates_matrix)
+
+# Run CHAI-ST, passing the st_matrix and similarity_matrix_list as arguments. 
+sce <- CHAI_ST(st_matrix, similarity_matrix_list)
+
+```
+
+You may of course run CHAI-ST with CHAI-AvgSim, or incorporate the spatial transcriptomics binary matrix representation in the ```similarity_matrix_list``` and run SNF just once if desired. 
+
+# Add your own clustering algorithms to CHAI
+
+Adding your own clustering algorithms to CHAI is very straightforward. Just obtain the cell-cluster_assignment column, and add it to ```colData(sce)``` with the suffix ```_assign```. CHAI will automatically consider it for all further applications. 
+
+If you have developed your own clustering algorithm and want it to be included within the CHAI package by default, do not hesitate to reach out to Musaddiq Lodi via email at ```lodimk2@vcu.edu```, or submit a pull request on our GitHub.
+
+We want CHAI to be a tool by and for the scRNAseq community!!! It is our vision for CHAI to expand both in the number of clustering algorithms it contains, and the types of omics it may support.
+```{r, eval=FALSE}
+# Generate list of binary similarity matrices 
+
+# Assuming that spatial transcriptmics dataframe is called "coordinates_matrix"
+st_matrix <- ST_Sim(coordinates_matrix)
+
+# Run CHAI-ST, passing the st_matrix and similarity_matrix_list as arguments. 
+sce <- CHAI_ST(st_matrix, similarity_matrix_list)
+
+```
+
+# References
+
+1. Baron M, Veres A, Wolock SL, Faust AL, Gaujoux R, Vetere A, Ryu JH, Wagner BK, Shen-Orr SS, Klein AM, Melton DA, Yanai I. A Single-Cell Transcriptomic Map of the Human and Mouse Pancreas Reveals Inter- and Intra-cell Population Structure. Cell Syst. 2016 Oct 26;3(4):346-360.e4. doi: 10.1016/j.cels.2016.08.011. Epub 2016 Sep 22. PMID: 27667365; PMCID: PMC5228327.
+2. Long et al. Spatially informed clustering, integration, and deconvolution of spatial transcriptomics with GraphST. Nature Communications. 14(1), 1155 (2023).
+3. Wang, B., Mezlini, A., Demir, F. et al. Similarity network fusion for aggregating data types on a genomic scale. Nat Methods 11, 333–337 (2014). https://doi.org/10.1038/nmeth.2810
 
 # Session Info 
 
@@ -165,4 +264,3 @@ evaluation_table <- evaluation_table(sce, baron_mouse_1_ground_truth$clust_assig
 sessionInfo()
 ```
 
-# TODO: Add Visualization, Quick Start, and References.  
