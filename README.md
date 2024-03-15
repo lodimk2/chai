@@ -4,6 +4,7 @@
 ### Version 0.0.9110 (2023-03-15)
 - Initial release of the package.
 - Submitted to Bioconductor.
+
 For the full log of news and updates, please check the [NEWS.md](NEWS.md) file.
 
 ### Introduction 
