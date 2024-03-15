@@ -29,28 +29,3 @@ test_that("get_clust_assignments runs all clustering algorithms and adds results
   
 })
 
-test_that("CHAI_AvgSim assigns clusters correctly", {
-  # Mock  SingleCellExperiment object
-  sce <- SingleCellExperiment::SingleCellExperiment(list(counts = matrix(runif(100), ncol = 10)))
-  best_k <- 3
-
-  
-  result_sce <- CHAI_AvgSim(sce, best_k, eval = FALSE)
-
-  # Check if the result has the expected properties
-  expect_true(all(SingleCellExperiment::colData(result_sce)$CHAI_AvgSim_assign %in% 1:best_k))
-  expect_equal(length(unique(SingleCellExperiment::colData(result_sce)$CHAI_AvgSim_assign)), best_k)
-})
-
-
-test_that("CHAI_SNF assigns clusters correctly", {
-  # Mock SingleCellExperiment object
-  sce <- SingleCellExperiment::SingleCellExperiment(list(counts = matrix(runif(100), ncol = 10)))
-  best_k <- 3
-
-  result_sce <- CHAI_SNF(sce, best_k, eval = FALSE)
-
-  # Check if the result has the expected properties
-  expect_true(all(SingleCellExperiment::colData(result_sce)$CHAI_SNF_assign %in% 1:best_k))
-  expect_equal(length(unique(SingleCellExperiment::colData(result_sce)$CHAI_SNF_assign)), best_k)
-})

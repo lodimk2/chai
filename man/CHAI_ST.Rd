@@ -4,12 +4,12 @@
 \alias{CHAI_ST}
 \title{Runs CHAI with ST integration with SNF - Two Level}
 \usage{
-CHAI_ST(st_matrix, similarity_matrix_list)
+CHAI_ST(st_matrix, sce)
 }
 \arguments{
 \item{st_matrix}{binary ST matrix}
 
-\item{similarity_matrix_list}{similarity matrix list created from clustering assignment list}
+\item{sce}{SingleCellExperiment object with all clustering assignments.}
 }
 \value{
 adj

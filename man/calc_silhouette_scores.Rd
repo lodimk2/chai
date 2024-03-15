@@ -7,12 +7,12 @@
 calc_silhouette_scores(matrix, max_k = 15)
 }
 \arguments{
-\item{matrix}{Either CSPA or SNF matrix}
+\item{matrix}{Either AvgSim or SNF matrix}
 
 \item{max_k}{Run silhouette score evaluation up to the max_k. Should be upper bound of # of clusters user expects in the dataset}
 }
 \description{
-On either CSPA or SNF matrix, determine what the best silhouette score is and choose it as best K.
+On either AvgSim or SNF matrix, determine what the best silhouette score is and choose it as best K.
 }
 \keyword{Determination}
 \keyword{Score}

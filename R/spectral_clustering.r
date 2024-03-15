@@ -1,7 +1,7 @@
 #' Determine best k for spectral clustering using silhouette score
 #'
-#' On either CSPA or SNF matrix, determine what the best silhouette score is and choose it as best K. 
-#' @param matrix Either CSPA or SNF matrix 
+#' On either AvgSim or SNF matrix, determine what the best silhouette score is and choose it as best K. 
+#' @param matrix Either AvgSim or SNF matrix 
 #' @param max_k Run silhouette score evaluation up to the max_k. Should be upper bound of # of clusters user expects in the dataset
 #' @keywords Silhouette Score Determination
 #' @import SNFtool
@@ -28,8 +28,8 @@ calc_silhouette_scores <- function(matrix, max_k=15) {
 
 #' Run Spectral Clustering
 #'
-#' On either CSPA or SNF matrix, run spectral clustering with user defined k. 
-#' @param matrix Either CSPA or SNF matrix 
+#' On either AvgSim or SNF matrix, run spectral clustering with user defined k. 
+#' @param matrix Either AvgSim or SNF matrix 
 #' @param best_k Number of clusters that should be run for spectral clustering 
 #' @keywords Run Spectral Clustering
 #' @import SNFtool

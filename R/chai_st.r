@@ -2,7 +2,7 @@
 #' 
 #' @param spat_data  NAME: the cell  - X: x coordinates  - Y: y coordinates - Cluster: cell type annotation. Ensure that "X" coordinates and "Y" coordinates columns are named with "X" and "Y". 
 #' @return adj
-#' @import FNN
+#' @importFrom FNN get.knn
 #' @export
 ST_Sim <- function(spat_data) {
     position <- spat_data[-1, c("X", "Y")] #exclude top non-data row, and X, Y columns for position info
@@ -30,7 +30,7 @@ ST_Sim <- function(spat_data) {
 #' Runs CHAI with ST integration with SNF - Two Level
 #' 
 #' @param st_matrix binary ST matrix 
-#' @param similarity_matrix_list similarity matrix list created from clustering assignment list 
+#' @param sce SingleCellExperiment object with all clustering assignments. 
 #' @return adj
 #' @import SNFtool
 #' @export

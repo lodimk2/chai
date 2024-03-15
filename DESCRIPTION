@@ -4,7 +4,7 @@ Version: 0.0.0.9110
 Authors@R: 
     c(person("Musaddiq", "Lodi", email = "lodimk2@vcu.edu", role = c("aut", "cre")), person("Kezie", "Osei", email = "oseika@vcu.edu", role = c("aut")), person("Vaishnavi", "Ranganathan", email = "vrangana@andrew.cmu.edu", role = c("aut")))
 Description: Consensus Clustering Through Similarity Matrices for Single Cell Type Identification.
-License: MIT + file LICENSE 
+License: MIT
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1.9000
@@ -22,7 +22,8 @@ Imports:
     RaceID,
     SC3,
     scSHC,
-    Biobase
+    Biobase,
+    FNN
 Suggests: 
     knitr,
     rmarkdown,

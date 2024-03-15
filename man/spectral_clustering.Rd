@@ -7,12 +7,12 @@
 spectral_clustering(matrix, best_k)
 }
 \arguments{
-\item{matrix}{Either CSPA or SNF matrix}
+\item{matrix}{Either AvgSim or SNF matrix}
 
 \item{best_k}{Number of clusters that should be run for spectral clustering}
 }
 \description{
-On either CSPA or SNF matrix, run spectral clustering with user defined k.
+On either AvgSim or SNF matrix, run spectral clustering with user defined k.
 }
 \examples{
 \dontrun{
