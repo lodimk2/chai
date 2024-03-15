@@ -1,4 +1,5 @@
-# CHAI: consensus Clustering tHrough similArIty matrix integratIon for single cell type identification <img src="https://github.com/lodimk2/chai/assets/69815640/c3894c8e-91c3-45a5-acaa-0a6ca8eb79e6" alt="vr_chai_logi" width="100px" height="auto">
+# CHAI: consensus Clustering tHrough similArIty matrix integratIon for single cell type identification 
+<img src="https://github.com/lodimk2/chai/assets/69815640/c3894c8e-91c3-45a5-acaa-0a6ca8eb79e6" alt="vr_chai_logi" width="100px" height="auto">
 
 
 
