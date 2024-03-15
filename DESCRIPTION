@@ -3,7 +3,7 @@ Title: CHAI: consensus Clustering tHrough similArIty matrIx integratIon for sing
 Version: 0.99.0
 Authors@R: 
     c(person("Musaddiq", "Lodi", email = "lodimk2@vcu.edu", role = c("aut", "cre")), person("Kezie", "Osei", email = "oseika@vcu.edu", role = c("aut")), person("Vaishnavi", "Ranganathan", email = "vrangana@andrew.cmu.edu", role = c("aut")))
-Description: Consensus Clustering Through Similarity Matrices for Single Cell Type Identification.
+Description: We present CHAI (consensus Clustering tHrough similArIty matrix integratIon for single cell type identification), a wisdom of crowds approach for scRNAseq clustering. CHAI presents two methods which aggregate the clustering results from seven state of the art clustering methods: CHAI-AvgSim and  CHAI-SNF. Both methods demonstrate improved performance on a diverse selection of benchmarking datasets, including outperforming a previous consensus clustering method.
 License: MIT
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -33,4 +33,4 @@ Config/testthat/edition: 3
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
-LazyData: true
+LazyData: false
