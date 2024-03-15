@@ -7,7 +7,7 @@
 
 For the full log of news and updates, please check the [NEWS.md](NEWS.md) file.
 
-### Introduction 
+## Introduction 
 CHAI (consensus Clustering tHrough similArIty matrix integratIon for single cell type identification) is a consensus clustering framework that offers two methods for consensus clustering: Average Similarity (AvgSim) and Similarity Network Fusion (SNF) (Wang et al. 2014).
 
 ![vr_flowchart](https://github.com/lodimk2/chai/assets/69815640/21202365-38f7-4fa9-aeff-c8f5b14c9fe9)
