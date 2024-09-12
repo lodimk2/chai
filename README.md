@@ -79,17 +79,15 @@ If you use CHAI, please cite our manuscript:
 Lodi, M., Lodi, M., Osei, K., Ranganathan, V., Hwang, P., & Ghosh, P. (2024). CHAI: Consensus Clustering Through Similarity Matrix Integration for Cell-Type Identification. bioRxiv. https://doi.org/10.1101/2024.03.19.585758
 
 ```
-@article {Lodi2024.03.19.585758,
-	author = {Musaddiq Lodi and Muzammil Lodi and Kezie Osei and Vaishnavi Ranganathan and Priscilla Hwang and Preetam Ghosh},
-	title = {CHAI: Consensus Clustering Through Similarity Matrix Integration for Cell-Type Identification},
-	elocation-id = {2024.03.19.585758},
-	year = {2024},
-	doi = {10.1101/2024.03.19.585758},
-	publisher = {Cold Spring Harbor Laboratory},
-	abstract = {Several methods have been developed to computationally predict cell-types for single cell RNA sequencing (scRNAseq) data. As methods are developed, a common problem for investigators has been identifying the best method they should apply to their specific use-case. To address this challenge, we present CHAI (consensus Clustering tHrough similArIty matrix integratIon for single cell type identification), a wisdom of crowds approach for scRNAseq clustering. CHAI presents two competing methods which aggregate the clustering results from seven state of the art clustering methods: CHAI-AvgSim and CHAI-SNF. Both methods demonstrate improved performance on a diverse selection of benchmarking datasets, besides also outperforming a previous consensus clustering method. We demonstrate CHAI{\textquoteright}s practical use case by identifying a leader tumor cell cluster enriched with CDH3. CHAI provides a platform for multiomic integration, and we demonstrate CHAI-SNF to have improved performance when including spatial transcriptomics data. CHAI is intuitive and easily customizable; it provides a way for users to add their own clustering methods to the pipeline, or down-select just the ones they want to use for the clustering aggregation. CHAI is available as an open source R package on GitHub: https://github.com/lodimk2/chaiCompeting Interest StatementThe authors have declared no competing interest.},
-	URL = {https://www.biorxiv.org/content/early/2024/03/22/2024.03.19.585758},
-	eprint = {https://www.biorxiv.org/content/early/2024/03/22/2024.03.19.585758.full.pdf},
-	journal = {bioRxiv}
+@article{CHAI_BIB,
+  title = {CHAI: Consensus Clustering through Similarity Matrix Integration for Cell-Type Identification},
+  author = {Musaddiq K. Lodi and Muzammil Lodi and Kezie Osei and Vaishnavi Ranganathan and Priscilla Hwang and Preetam Ghosh},
+  journal = {Briefings in Bioinformatics},
+  volume = {25},
+  number = {5},
+  year = {2024},
+  doi = {10.1093/bib/bbae411},
+  publisher = {Oxford University Press},
 }
 ```
 
