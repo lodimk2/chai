@@ -199,16 +199,20 @@ a.sourceLine {
 <h1>Quick Start: CHAI-AvgSim and CHAI-SNF</h1>
 <p>We provide two wrapper functions to run CHAI-AvgSim and CHAI-SNF for your convienience once all clustering algorithms are run using <code>get_clust_assignments</code>.</p>
 <p>To run CHAI-AvgSim:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If &quot;eval&quot; is set to TRUE, CHAI will evaluate the best_k for Spectral Clustering using silhouette score. If &quot;eval&quot; is set to false, CHAI will use best_k as the k value for silhouette score.</span></span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If "eval" is set to TRUE, CHAI will evaluate the best_k for Spectral Clustering using silhouette score. If "eval" is set to false, CHAI will use best_k as the k value for silhouette score.</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The default is eval being set to TRUE</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>best_k <span class="ot">&lt;-</span> <span class="dv">15</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>sce <span class="ot">&lt;-</span> <span class="fu">CHAI_AvgSim</span>(sce, best_k, <span class="at">eval =</span> <span class="cn">TRUE</span>)</span>
+</code></pre></div>
+
 <p>To run CHAI-SNF:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If &quot;eval&quot; is set to TRUE, CHAI will evaluate the best_k for Spectral Clustering using silhouette score. If &quot;eval&quot; is set to false, CHAI will use best_k as the k value for silhouette score.</span></span>
+
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If "eval" is set to TRUE, CHAI will evaluate the best_k for Spectral Clustering using silhouette score. If "eval" is set to false, CHAI will use best_k as the k value for silhouette score.</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The default is eval being set to TRUE</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>best_k <span class="ot">&lt;-</span> <span class="dv">15</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>sce <span class="ot">&lt;-</span> <span class="fu">CHAI_SNF</span>(sce, best_k, <span class="at">eval =</span> <span class="cn">TRUE</span>)</span>
-</div>
+</code></pre></div>
+
 <div id="chai-step-by-step" class="section level1">
 <h1>CHAI Step by Step</h1>
 <p>Below is a step by step description for the steps of CHAI.</p>
